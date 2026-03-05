@@ -33,4 +33,9 @@ class Asset extends Model
     {
         return $this->hasMany(Review::class);
     }
+    
+    public function attachments()
+    {
+        return $this->hasMany(AssetAttachment::class);
+    }
 }
