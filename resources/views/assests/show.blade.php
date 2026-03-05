@@ -56,6 +56,22 @@
             @endif
         </div>
 
+        @if($asset->tech_json && count($asset->tech_json) > 0)
+        <div class="bg-white p-4 rounded-4 shadow-sm mb-4">
+            <h3 class="h4 fw-semibold mb-3">⚙️ Technical Details</h3>
+            <div class="row g-3">
+                @foreach($asset->tech_json as $key => $value)
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3">
+                        <span class="fw-semibold text-capitalize">{{ str_replace('_', ' ', $key) }}:</span>
+                        <span class="text-primary">{{ $value }}</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         <div class="bg-white p-4 rounded-4 shadow-sm">
             <h3 class="h4 fw-semibold mb-3">📋 Item details</h3>
             <table class="table table-borderless align-middle">

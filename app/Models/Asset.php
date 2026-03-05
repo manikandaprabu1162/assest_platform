@@ -16,7 +16,12 @@ class Asset extends Model
         'thumbnail',
         'preview_link',
         'file_path',
+        'tech_json',
         'status'
+    ];
+    
+    protected $casts = [
+        'tech_json' => 'array',
     ];
 
     public function user()

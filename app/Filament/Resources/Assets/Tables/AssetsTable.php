@@ -15,12 +15,14 @@ class AssetsTable
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('category_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('User')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('slug')
@@ -28,18 +30,17 @@ class AssetsTable
                 TextColumn::make('price')
                     ->money()
                     ->sortable(),
-                TextColumn::make('thumbnail')
-                    ->searchable(),
-                TextColumn::make('preview_link')
-                    ->searchable(),
-                TextColumn::make('file_path')
-                    ->searchable(),
                 TextColumn::make('downloads')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('rating')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('tech_json')
+                    ->label('Tech Details')
+                    ->formatStateUsing(fn ($state) => $state ? 'Has data' : 'None')
+                    ->badge()
+                    ->color(fn ($state) => $state ? 'success' : 'gray'),
                 IconColumn::make('status')
                     ->boolean(),
                 TextColumn::make('created_at')

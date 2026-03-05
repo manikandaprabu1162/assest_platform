@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->string('preview_link')->nullable();
             $table->string('file_path');
+            $table->json('tech_json')->nullable();
 
             $table->integer('downloads')->default(0);
             $table->decimal('rating', 3, 2)->default(0);

@@ -29,7 +29,8 @@ class AssetResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return AssetsTable::configure($table);
+        return AssetsTable::configure($table)
+            ->modifyQueryUsing(fn ($query) => $query->with(['user', 'category']));
     }
 
     public static function getRelations(): array

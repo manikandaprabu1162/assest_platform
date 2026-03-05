@@ -7,6 +7,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\KeyValue;
 use Filament\Schemas\Schema;
 use App\Models\User;
 use App\Models\Category;
@@ -48,6 +49,13 @@ class AssetForm
 
                 TextInput::make('downloads')->numeric()->default(0),
                 TextInput::make('rating')->numeric()->default(0),
+                
+                KeyValue::make('tech_json')
+                    ->label('Technical Details (JSON)')
+                    ->keyLabel('Property')
+                    ->valueLabel('Value')
+                    ->columnSpanFull(),
+
                 Toggle::make('status')->required(),
             ]);
     }
