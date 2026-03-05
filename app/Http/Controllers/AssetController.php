@@ -14,6 +14,8 @@ class AssetController extends Controller
 
     public function show(\App\Models\Asset $asset)
     {
+        $asset->load(['category', 'user', 'attachments']);
+        
         return view('assests.show', compact('asset'));
     }
 
@@ -33,5 +35,14 @@ class AssetController extends Controller
         }
 
         return Storage::disk('local')->download($asset->file_path, $asset->title . '.zip');
+    }
+
+    public function attachmentImage(\App\Models\AssetAttachment $attachment)
+    {
+        if (!$attachment->preview_image || !Storage::disk('local')->exists($attachment->preview_image)) {
+            return redirect('https://placehold.co/1200x630/1e2a3a/ffffff?text=No+Image');
+        }
+
+        return Storage::disk('local')->response($attachment->preview_image);
     }
 }

@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/assets/{asset}', [AssetController::class, 'show'])->name('assets.show');
     Route::get('/assets/{asset}/download', [AssetController::class, 'download'])->name('assets.download');
     Route::get('/assets/{asset}/thumbnail', [AssetController::class, 'thumbnail'])->name('assets.thumbnail');
+    Route::get('/attachments/{attachment}/image', [AssetController::class, 'attachmentImage'])->name('attachments.image');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
