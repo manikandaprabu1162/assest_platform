@@ -1,52 +1,132 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="en">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create account · AssetMarket</title>
+    <!-- Bootstrap 5 (only CSS, no custom styles) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (optional, adds clean visual cues) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="bg-light d-flex align-items-center min-vh-100 py-4">
+
+    <!-- 
+        LARAVEL REGISTER FORM – fully functional, Bootstrap only.
+        All Laravel directives (@csrf, old, errors, route) are preserved.
+        Classes are replaced with Bootstrap equivalents – zero custom CSS.
+    -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+
+                <!-- main card (elevated, rounded, clean) -->
+                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+                    <!-- header with brand -->
+                    <div class="card-header bg-white border-0 pt-4 pb-0 text-center">
+                        <h2 class="fw-bold text-primary">✨ Join AssetMarket</h2>
+                        <p class="text-secondary small">Create your free account</p>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5">
+
+                        <!-- Session Status (if any – Laravel component) -->
+                        <x-auth-session-status class="mb-4 alert alert-success" :status="session('status')" />
+
+                        <!-- Main form – all Laravel directives untouched -->
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <x-input-label for="name" :value="__('Name')" class="form-label fw-semibold" />
+                                <x-text-input id="name" class="form-control form-control-lg bg-light border-0 shadow-sm"
+                                    type="text" name="name" :value="old('name')" required autofocus autocomplete="name"
+                                    placeholder="John Doe" />
+                                <x-input-error :messages="$errors->get('name')" class="text-danger small mt-1" />
+                            </div>
+
+                            <!-- Email Address -->
+                            <div class="mb-3">
+                                <x-input-label for="email" :value="__('Email')" class="form-label fw-semibold" />
+                                <x-text-input id="email"
+                                    class="form-control form-control-lg bg-light border-0 shadow-sm" type="email"
+                                    name="email" :value="old('email')" required autocomplete="username"
+                                    placeholder="name@example.com" />
+                                <x-input-error :messages="$errors->get('email')" class="text-danger small mt-1" />
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <x-input-label for="password" :value="__('Password')" class="form-label fw-semibold" />
+                                <x-text-input id="password"
+                                    class="form-control form-control-lg bg-light border-0 shadow-sm" type="password"
+                                    name="password" required autocomplete="new-password"
+                                    placeholder="•••••••• (min. 8 characters)" />
+                                <x-input-error :messages="$errors->get('password')" class="text-danger small mt-1" />
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="mb-4">
+                                <x-input-label for="password_confirmation" :value="__('Confirm Password')"
+                                    class="form-label fw-semibold" />
+                                <x-text-input id="password_confirmation"
+                                    class="form-control form-control-lg bg-light border-0 shadow-sm" type="password"
+                                    name="password_confirmation" required autocomplete="new-password"
+                                    placeholder="confirm password" />
+                                <x-input-error :messages="$errors->get('password_confirmation')"
+                                    class="text-danger small mt-1" />
+                            </div>
+
+                            <!-- terms hint (bootstrap only) -->
+                            <div class="mb-4 small text-secondary">
+                                <i class="bi bi-info-circle me-1"></i> By signing up, you agree to our
+                                <a href="#" class="text-decoration-none">Terms</a> and
+                                <a href="#" class="text-decoration-none">Privacy Policy</a>.
+                            </div>
+
+                            <!-- actions: login link + register button -->
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+                                <a class="text-decoration-none small" href="{{ route('login') }}">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>{{ __('Already registered?') }}
+                                </a>
+
+                                <x-primary-button class="btn btn-warning px-5 py-3 fw-semibold w-100 w-sm-auto">
+                                    {{ __('Register') }} <i class="bi bi-person-plus ms-2"></i>
+                                </x-primary-button>
+                            </div>
+
+                            <!-- optional divider (just for style) -->
+                            <div class="text-center mt-4">
+                                <span class="badge bg-light text-secondary px-3 py-2 rounded-pill">
+                                    <i class="bi bi-shield-lock me-1"></i> secured by Laravel
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- simple footer -->
+                    <div class="card-footer bg-white border-0 text-center pb-4 text-secondary small">
+                        <i class="bi bi-heart-fill text-danger me-1"></i> Join 10,000+ creators
+                    </div>
+                </div>
+
+                <!-- back to home (optional) -->
+                <div class="text-center mt-4">
+                    <a href="#" class="text-secondary text-decoration-none small">
+                        <i class="bi bi-arrow-left me-1"></i> Back to AssetMarket
+                    </a>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <!-- Bootstrap JS bundle (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>
