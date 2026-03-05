@@ -69,9 +69,11 @@
 
                 <h1 class="fw-bold mb-3">{{ $asset->title }}</h1>
 
-                <p class="text-secondary mb-4">
-                    {{ $asset->description }}
-                </p>
+                @if($asset->description)
+                <div class="prose prose-lg text-secondary mb-4" style="line-height: 1.8;">
+                    {!! $asset->description !!}
+                </div>
+                @endif
 
             </div>
         </div>

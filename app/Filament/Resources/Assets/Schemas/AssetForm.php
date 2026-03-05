@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
 use App\Models\User;
 use App\Models\Category;
@@ -30,7 +31,24 @@ class AssetForm
 
                 TextInput::make('title')->required(),
                 TextInput::make('slug')->required(),
-                Textarea::make('description')->required()->columnSpanFull(),
+                RichEditor::make('description')
+                    ->required()
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'attachFiles',
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'codeBlock',
+                        'h2',
+                        'h3',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'undo',
+                    ]),
                 TextInput::make('price')->required()->numeric()->prefix('$'),
 
                 FileUpload::make('thumbnail')
