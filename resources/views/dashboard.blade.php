@@ -27,9 +27,11 @@
     @forelse($assets as $asset)
     <div class="col-sm-6 col-lg-4 col-xl-3">
         <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-            <img src="{{ route('assets.thumbnail', $asset) }}" class="card-img-top"
-                style="width: 300px; height: 200px; object-fit: cover;" alt="{{ $asset->title }}"
-                onerror="this.src='https://placehold.co/600x400/2b2b2b/ffffff?text=No+Image'">
+            <a href="{{ route('assets.show', $asset) }}" class="d-block">
+                <img src="{{ route('assets.thumbnail', $asset) }}" class="card-img-top"
+                    style="width: 300px; height: 200px; object-fit: cover;" alt="{{ $asset->title }}"
+                    onerror="this.src='https://placehold.co/600x400/2b2b2b/ffffff?text=No+Image'">
+            </a>
             <div class="card-body pb-2">
                 <div class="d-flex align-items-center mb-2">
                     @if($asset->category)
@@ -37,7 +39,11 @@
                     @endif
                     <span class="badge bg-warning text-dark">ACTIVE</span>
                 </div>
-                <h5 class="card-title fw-semibold mb-1">{{ $asset->title }}</h5>
+                <h5 class="card-title fw-semibold mb-1">
+                    <a href="{{ route('assets.show', $asset) }}" class="text-decoration-none text-dark">
+                        {{ $asset->title }}
+                    </a>
+                </h5>
                 <p class="card-text text-secondary small">{{ Str::limit($asset->description, 50) }}</p>
             </div>
             <div

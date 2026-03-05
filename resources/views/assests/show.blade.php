@@ -71,15 +71,9 @@
                 <div class="bg-white p-4 rounded-4 shadow-sm mb-4">
                     <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
                         <h1 class="h2 fw-bold mb-0">Modern Website Template</h1>
-                        <span class="badge bg-warning text-dark fs-6 px-3 py-2 rounded-pill">BESTSELLER</span>
                     </div>
                     <p class="lead text-secondary">High quality responsive website template built with Bootstrap 5.
                         Perfect for business websites, startups, portfolios and agencies.</p>
-                    <div class="d-flex gap-3 text-secondary small">
-                        <span>⭐ 4.8 (32 reviews)</span>
-                        <span>👤 150+ sales</span>
-                        <span>📅 Updated Feb 2026</span>
-                    </div>
                 </div>
 
                 <!-- description card (clean typography, bootstrap only) -->
@@ -114,10 +108,6 @@
                                 <td>Website Templates / Business</td>
                             </tr>
                             <tr>
-                                <th class="text-secondary">Files included</th>
-                                <td>HTML, CSS, JS, documentation</td>
-                            </tr>
-                            <tr>
                                 <th class="text-secondary">Compatible browsers</th>
                                 <td>Chrome, Firefox, Safari, Edge</td>
                             </tr>
@@ -127,7 +117,7 @@
                             </tr>
                             <tr>
                                 <th class="text-secondary">Author</th>
-                                <td><a href="#" class="text-decoration-none fw-semibold">John Developer</a> (Top author)
+                                <td><a href="#" class="text-decoration-none fw-semibold">John Developer</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -189,53 +179,10 @@
                                 now</button>
                             <button class="btn btn-outline-secondary w-100 mb-4 py-2 rounded-3">❤️ Add to
                                 wishlist</button>
-
-                            <hr class="my-3">
-
-                            <h5 class="fw-semibold mb-3">📦 Item information</h5>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between px-0 border-0">
-                                    <span>Sales</span> <span class="fw-semibold">152</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between px-0 border-0">
-                                    <span>Rating</span> <span class="text-warning fw-semibold">⭐ 4.8 (32)</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between px-0 border-0"><span>Last
-                                        update</span> <span>Feb 2026</span></li>
-                                <li class="list-group-item d-flex justify-content-between px-0 border-0">
-                                    <span>Category</span> <span>Templates</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between px-0 border-0">
-                                    <span>License</span> <span>Regular</span>
-                                </li>
-                            </ul>
-
-                            <hr class="my-3">
-
                             <div class="small text-secondary">
-                                <span>🔒 Secure transaction</span> · <span>30‑day refund</span>
+                                <span>🔒 Secure transaction</span> · <span>Future updates included</span>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- author card (simple, elegant) -->
-                    <div class="card border-0 shadow-sm rounded-4 text-center p-3">
-                        <div class="card-body">
-                            <img src="https://placehold.co/100x100/2b2b2b/ffffff?text=JD"
-                                class="rounded-circle mb-3 border" width="80" height="80" alt="author">
-                            <h5 class="fw-semibold">John Developer</h5>
-                            <p class="text-secondary small mb-2">⭐ Top author · 12 years exp</p>
-                            <div class="d-flex justify-content-center gap-3 small text-secondary mb-3">
-                                <span>📦 48 items</span>
-                                <span>⭐ 4.9</span>
-                            </div>
-                            <button class="btn btn-outline-primary btn-sm rounded-pill px-4">View profile</button>
-                        </div>
-                    </div>
-
-                    <!-- extra badge: 100% pure bootstrap -->
-                    <div class="text-center text-secondary small mt-3">
-                        🛡️ Verified author · included updates
                     </div>
                 </div>
             </div> <!-- end right col -->
