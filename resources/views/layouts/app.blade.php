@@ -1,36 +1,73 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetMarket — best design, Bootstrap only</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">
+                <span class="text-warning">◆</span> AssetMarket
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Categories</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Popular</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">New</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Support</a></li>
+                </ul>
+            </div>
         </div>
-    </body>
+    </nav>
+    <div class="container my-1">
+
+        @yield('content')
+
+    </div>
+
+    <footer class=" bg-dark text-white pt-5 pb-4 mt-5">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-5">
+                    <h4 class="fw-bold text-warning">AssetMarket</h4>
+                    <p class="text-secondary small">Premium digital assets for creators, developers & designers. Best
+                        Bootstrap design — no custom CSS, only pure Bootstrap.</p>
+                </div>
+                <div class="col-md-3 offset-md-1">
+                    <h6 class="fw-semibold">Explore</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Graphics</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Templates</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">3D & AR</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Fonts</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-semibold">Company</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-white-50 text-decoration-none">About</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Licenses</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center small text-secondary">
+                © 2026 AssetMarket – best Bootstrap design. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
