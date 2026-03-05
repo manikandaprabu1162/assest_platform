@@ -2,10 +2,14 @@
 
 namespace App\Filament\Resources\Assets\Schemas;
 
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use App\Models\User;
+use App\Models\Category;
 
 class AssetForm
 {
@@ -13,38 +17,38 @@ class AssetForm
     {
         return $schema
             ->components([
-                TextInput::make('user_id')
+                Select::make('user_id')
+                    ->label('User')
                     ->required()
-                    ->numeric(),
-                TextInput::make('category_id')
+                    ->relationship('user', 'name'), 
+
+                Select::make('category_id')
+                    ->label('Category')
                     ->required()
-                    ->numeric(),
-                TextInput::make('title')
+                    ->relationship('category', 'name'), 
+
+                TextInput::make('title')->required(),
+                TextInput::make('slug')->required(),
+                Textarea::make('description')->required()->columnSpanFull(),
+                TextInput::make('price')->required()->numeric()->prefix('$'),
+
+                FileUpload::make('thumbnail')
+                    ->label('Thumbnail Image')
+                    ->image()
+                    ->directory('assets/thumbnails')
                     ->required(),
-                TextInput::make('slug')
-                    ->required(),
-                Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                TextInput::make('thumbnail')
-                    ->required(),
+
                 TextInput::make('preview_link'),
-                TextInput::make('file_path')
+
+                FileUpload::make('file_path')
+                    ->label('Source Code ZIP')
+                    ->directory('assets/files')
+                    ->acceptedFileTypes(['application/zip'])
                     ->required(),
-                TextInput::make('downloads')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                TextInput::make('rating')
-                    ->required()
-                    ->numeric()
-                    ->default(0.0),
-                Toggle::make('status')
-                    ->required(),
+
+                TextInput::make('downloads')->numeric()->default(0),
+                TextInput::make('rating')->numeric()->default(0),
+                Toggle::make('status')->required(),
             ]);
     }
 }
