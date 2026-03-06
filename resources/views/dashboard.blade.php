@@ -11,14 +11,6 @@
                 <button class="btn btn-lg btn-warning px-4 px-xl-5 fw-semibold rounded-3" type="submit">🔍
                     Search</button>
             </form>
-            <div class="d-flex gap-3 mt-3 small text-secondary flex-wrap">
-                <span>🔥 Trending: </span>
-                <a href="#" class="text-decoration-none">Admin</a>
-                <a href="#" class="text-decoration-none">UI kit</a>
-                <a href="#" class="text-decoration-none">3D</a>
-                <a href="#" class="text-decoration-none">Fonts</a>
-                <a href="#" class="text-decoration-none">Mockups</a>
-            </div>
         </div>
     </div>
 </div>
@@ -49,8 +41,18 @@
             <div
                 class="card-footer bg-transparent d-flex justify-content-between align-items-center border-0 pt-0 pb-3">
                 <span class="h5 fw-bold text-dark mb-0">${{ $asset->price }}</span>
-                <a href="{{ route('assets.download', $asset) }}"
-                    class="btn btn-sm btn-dark rounded-pill px-4">Download</a>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('assets.download', $asset) }}"
+                        class="btn btn-sm btn-dark rounded-pill px-4">Download</a>
+                    @auth
+                    <button class="btn btn-sm btn-outline-danger wishlist-btn-dashboard" 
+                            data-asset-id="{{ $asset->id }}" 
+                            data-in-wishlist="{{ \App\Models\Wishlist::where('user_id', Auth::id())->where('asset_id', $asset->id)->exists() ? 'true' : 'false' }}"
+                            title="Add to wishlist">
+                        <i class="bi bi-heart{{ \App\Models\Wishlist::where('user_id', Auth::id())->where('asset_id', $asset->id)->exists() ? '-fill' : '' }}"></i>
+                    </button>
+                    @endauth
+                </div>
             </div>
         </div>
     </div>
@@ -69,4 +71,62 @@
     {{ $assets->links() }}
 </nav>
 @endif
+
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Wishlist button functionality for dashboard
+    $('.wishlist-btn-dashboard').on('click', function(e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var assetId = $btn.data('asset-id');
+        var inWishlist = $btn.data('in-wishlist') === 'true';
+
+        if (inWishlist) {
+            // Remove from wishlist
+            $.ajax({
+                url: '/wishlist/' + assetId,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        $btn.data('in-wishlist', 'false');
+                        $btn.html('<i class="bi bi-heart"></i>');
+                    }
+                },
+                error: function() {
+                    alert('Failed to remove from wishlist.');
+                }
+            });
+        } else {
+            // Add to wishlist
+            $.ajax({
+                url: '/wishlist/add',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    asset_id: assetId
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        $btn.data('in-wishlist', 'true');
+                        $btn.html('<i class="bi bi-heart-fill"></i>');
+                    }
+                },
+                error: function() {
+                    alert('Failed to add to wishlist.');
+                }
+            });
+        }
+    });
+});
+</script>
+@endpush

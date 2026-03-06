@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,9 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/asset/{asset}/download', [PurchaseController::class, 'download'])
         ->name('asset.download');
     
-    // Check purchase status (AJAX)
-    Route::get('/asset/{asset}/check-status', [PurchaseController::class, 'checkStatus'])
-        ->name('asset.check-status');
+    // Wishlist routes
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/add', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::delete('/wishlist/{assetId}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+    Route::get('/wishlist/check/{asset}', [WishlistController::class, 'check'])->name('wishlist.check');
 });
 
 require __DIR__.'/auth.php';

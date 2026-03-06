@@ -136,12 +136,46 @@
             </button>
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
-                    <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Categories</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Popular</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">New</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Support</a></li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('purchases.my') }}" class="nav-link {{ request()->routeIs('purchases.my') ? 'active' : '' }}">
+                            My Purchases
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('wishlist.index') }}" class="nav-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
+                            Wishlist
+                        </a>
+                    </li>
                 </ul>
+                @auth
+                <div class="d-flex gap-2">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @else
+                <div class="d-flex gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                </div>
+                @endauth
             </div>
         </div>
     </nav>

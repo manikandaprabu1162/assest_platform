@@ -189,9 +189,15 @@
                     </a>
                     @endauth
 
-                    <button class="btn btn-outline-dark w-100 mb-3">
-                        Add to Wishlist
+                    @auth
+                    <button id="wishlist-btn" class="btn btn-outline-dark w-100 mb-3" data-asset-id="{{ $asset->id }}">
+                        <span id="wishlist-text">Add to Wishlist</span>
                     </button>
+                    @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-dark w-100 mb-3">
+                        Login to Add Wishlist
+                    </a>
+                    @endauth
 
                     <hr>
 
@@ -307,6 +313,77 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Wishlist functionality
+    @auth
+    $('#wishlist-btn').on('click', function(e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var assetId = $btn.data('asset-id');
+        var $text = $('#wishlist-text');
+        var isInWishlist = $btn.hasClass('in-wishlist');
+
+        if (isInWishlist) {
+            // Remove from wishlist
+            $.ajax({
+                url: '/wishlist/' + assetId,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        $btn.removeClass('in-wishlist btn-dark').addClass('btn-outline-dark');
+                        $text.text('Add to Wishlist');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert('Failed to remove from wishlist. Please try again.');
+                }
+            });
+        } else {
+            // Add to wishlist
+            $.ajax({
+                url: '/wishlist/add',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: {
+                    asset_id: assetId
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        $btn.addClass('in-wishlist btn-dark').removeClass('btn-outline-dark');
+                        $text.text('Added to Wishlist');
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert('Failed to add to wishlist. Please try again.');
+                }
+            });
+        }
+    });
+
+    // Check if asset is already in wishlist on page load
+    @php
+        $assetId = $asset->id;
+        $inWishlist = Auth::check() && \App\Models\Wishlist::where('user_id', Auth::id())
+            ->where('asset_id', $assetId)
+            ->exists();
+    @endphp
+    
+    @if($inWishlist)
+        $('#wishlist-btn').addClass('in-wishlist btn-dark').removeClass('btn-outline-dark');
+        $('#wishlist-text').text('Added to Wishlist');
+    @endif
+    @endauth
 });
 </script>
 @endpush
