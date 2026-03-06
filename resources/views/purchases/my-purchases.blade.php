@@ -67,10 +67,15 @@
                     
                     {{-- Image Section with Overlay --}}
                     <div class="position-relative">
-                        @if($purchase->asset->preview_image)
-                            <img src="{{ asset('storage/' . $purchase->asset->preview_image) }}" 
+                        @if($purchase->asset->attachments && $purchase->asset->attachments->count() > 0)
+                            <img src="{{ route('attachments.image', $purchase->asset->attachments->first()) }}" 
                                  class="card-img-top" 
-                                 alt="{{ $purchase->asset->name }}" 
+                                 alt="{{ $purchase->asset->title }}" 
+                                 style="height: 220px; object-fit: cover;">
+                        @elseif($purchase->asset->thumbnail)
+                            <img src="{{ route('assets.thumbnail', $purchase->asset) }}" 
+                                 class="card-img-top" 
+                                 alt="{{ $purchase->asset->title }}" 
                                  style="height: 220px; object-fit: cover;">
                         @else
                             <div class="bg-light d-flex align-items-center justify-content-center" 
@@ -93,7 +98,7 @@
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-dark bg-opacity-75 rounded-pill px-3 py-2">
                                 <i class="bi bi-tag me-1"></i>
-                                {{ $purchase->asset->category ?? 'Asset' }}
+                                {{ $purchase->asset->category->name ?? 'Asset' }}
                             </span>
                         </div>
                     </div>
@@ -101,7 +106,7 @@
                     {{-- Card Body --}}
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title fw-bold mb-0">{{ $purchase->asset->name }}</h5>
+                            <h5 class="card-title fw-bold mb-0">{{ $purchase->asset->title }}</h5>
                             <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-1">
                                 New
                             </span>
@@ -194,7 +199,7 @@
                                 </div>
                                 <div class="timeline-content flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="fw-bold mb-1">{{ $purchase->asset->name }}</h6>
+                                        <h6 class="fw-bold mb-1">{{ $purchase->asset->title }}</h6>
                                         <small class="text-secondary">{{ $purchase->purchased_at->diffForHumans() }}</small>
                                     </div>
                                     <p class="text-secondary small mb-0">
