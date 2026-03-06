@@ -67,16 +67,6 @@
                         {{-- Title and Rating --}}
                         <div class="mb-3">
                             <h5 class="card-title fw-bold mb-2">{{ $wishlist->asset->title }}</h5>
-                            <div class="d-flex align-items-center small">
-                                <div class="text-warning me-2">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </div>
-                                <span class="text-secondary">(4.5)</span>
-                            </div>
                         </div>
 
                         {{-- Description --}}

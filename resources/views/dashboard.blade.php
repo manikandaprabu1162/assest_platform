@@ -4,13 +4,26 @@
 
 <div class="row justify-content-center mb-5">
     <div class="col-12 col-lg-8">
-        <div class="bg-white p-3 p-md-4 rounded-4 shadow-sm border">
+        <div class="bg-white p-3 p-md-4 rounded-4 shadow border">
             <form class="d-flex gap-2" role="search">
-                <input class="form-control form-control-lg rounded-3 border-0 bg-light" type="search"
-                    placeholder="Search assets, templates, plugins… e.g. 'bootstrap admin'" aria-label="Search">
-                <button class="btn btn-lg btn-warning px-4 px-xl-5 fw-semibold rounded-3" type="submit">🔍
-                    Search</button>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-light border-0">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input class="form-control form-control-lg bg-light border-0" type="search"
+                        placeholder="Search assets, templates, plugins… e.g. 'bootstrap admin'" aria-label="Search">
+                </div>
+                <button class="btn btn-lg btn-warning px-4 px-xl-5 fw-semibold rounded-3" type="submit">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Search
+                </button>
             </form>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 justify-content-center">
+            <span class="badge bg-light text-dark py-2 px-3 rounded-pill">Bootstrap 5</span>
+            <span class="badge bg-light text-dark py-2 px-3 rounded-pill">React</span>
+            <span class="badge bg-light text-dark py-2 px-3 rounded-pill">Laravel</span>
+            <span class="badge bg-light text-dark py-2 px-3 rounded-pill">Admin</span>
+            <span class="badge bg-light text-dark py-2 px-3 rounded-pill">UI Kit</span>
         </div>
     </div>
 </div>
