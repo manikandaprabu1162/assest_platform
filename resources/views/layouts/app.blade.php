@@ -9,7 +9,7 @@
 
     <!-- Prose CSS for rich text styling -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.x/dist/typography.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom prose styling for RichEditor content -->
     <style>
     .prose {
@@ -125,98 +125,15 @@
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold fs-3" href="#">
-                <span class="text-warning">◆</span> AssetMarket
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
-                    <li class="nav-item">
-                        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                            Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('purchases.my') }}" class="nav-link {{ request()->routeIs('purchases.my') ? 'active' : '' }}">
-                            My Purchases
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('wishlist.index') }}" class="nav-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
-                            Wishlist
-                        </a>
-                    </li>
-                </ul>
-                @auth
-                <div class="d-flex gap-2">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ Auth::user()->name }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                @else
-                <div class="d-flex gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
-                </div>
-                @endauth
-            </div>
-        </div>
-    </nav>
+
+    @include('partials.app.header')
+
     <div class="container my-1">
-
         @yield('content')
-
     </div>
 
-    <footer class=" bg-dark text-white pt-5 pb-4 mt-5">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-md-5">
-                    <h4 class="fw-bold text-warning">AssetMarket</h4>
-                    <p class="text-secondary small">Premium digital assets for creators, developers & designers. Best
-                        Bootstrap design — no custom CSS, only pure Bootstrap.</p>
-                </div>
-                <div class="col-md-3 offset-md-1">
-                    <h6 class="fw-semibold">Explore</h6>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-white-50 text-decoration-none">Graphics</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Templates</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">3D & AR</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Fonts</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-semibold">Company</h6>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-white-50 text-decoration-none">About</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Licenses</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="border-secondary">
-            <div class="text-center small text-secondary">
-                © 2026 AssetMarket – best Bootstrap design. All rights reserved.
-            </div>
-        </div>
-    </footer>
+    @include('partials.app.footer')
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
