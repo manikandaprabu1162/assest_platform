@@ -43,4 +43,49 @@ class Asset extends Model
     {
         return $this->hasMany(AssetAttachment::class);
     }
+    
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+
+    public function buyers()
+    {
+        return $this->belongsToMany(User::class, 'purchases')
+            ->withPivot('price', 'transaction_id', 'payment_status', 'purchased_at')
+            ->wherePivot('payment_status', 'completed')
+            ->withTimestamps();
+    }
+
+    public function purchasedBy(User $user): bool
+    {
+        return $this->purchases()
+            ->where('user_id', $user->id)
+            ->where('payment_status', 'completed')
+            ->exists();
+    }
+
+
+    public function getTotalSalesAttribute(): int
+    {
+        return $this->purchases()
+            ->where('payment_status', 'completed')
+            ->count();
+    }
+
+    public function getTotalRevenueAttribute(): float
+    {
+        return $this->purchases()
+            ->where('payment_status', 'completed')
+            ->sum('price');
+    }
+
+    public function getDownloadUrlAttribute(): ?string
+    {
+        if (auth()->check() && $this->purchasedBy(auth()->user())) {
+            return route('assets.download', $this);
+        }
+        return null;
+    }
 }

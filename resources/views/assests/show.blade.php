@@ -165,9 +165,29 @@
                         ${{ $asset->price }}
                     </div>
 
-                    <button class="btn btn-warning btn-lg w-100 fw-semibold mb-3">
-                        Buy Now
-                    </button>
+                    {{-- ONLY THIS BUTTON IS CHANGED --}}
+                    @auth
+                    @php
+                    $purchase = App\Models\Purchase::where('user_id', Auth::id())
+                    ->where('asset_id', $asset->id)
+                    ->where('payment_status', 'completed')
+                    ->first();
+                    @endphp
+
+                    @if($purchase)
+                    <a href="{{ route('asset.download', $asset) }}"
+                        class="btn btn-success btn-lg w-100 fw-semibold mb-3">
+                        Download Now
+                    </a>
+                    @else
+                    <button id="buy-now-btn" class="btn btn-primary btn-lg w-100 fw-semibold mb-3">Buy Now</button>
+                    <div id="paymentError" class="text-danger mt-2" style="display:none;"></div>
+                    @endif
+                    @else
+                    <a href="{{ route('login') }}" class="btn btn-warning btn-lg w-100 fw-semibold mb-3">
+                        Login to Purchase
+                    </a>
+                    @endauth
 
                     <button class="btn btn-outline-dark w-100 mb-3">
                         Add to Wishlist
@@ -193,4 +213,100 @@
 
 </div>
 
+{{-- Add this modal at the bottom --}}
+<div class="modal fade" id="paymentLoadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-5">
+                <div class="spinner-border text-warning mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Processing Payment...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
+
+@push('scripts')
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+$(document).ready(function() {
+    $('#buy-now-btn').on('click', function(e) {
+        e.preventDefault();
+        
+        var $paymentError = $('#paymentError');
+        var loadingModal = new bootstrap.Modal(document.getElementById('paymentLoadingModal'));
+        loadingModal.show();
+        
+        $.ajax({
+            url: '{{ route("purchase.createOrder", $asset) }}',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(data) {
+                loadingModal.hide();
+                
+                if (!data.success) {
+                    $paymentError.text(data.message).show();
+                    return;
+                }
+                
+                var options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: 'INR',
+                    name: '{{ config("app.name") }}',
+                    description: '{{ $asset->title }}',
+                    order_id: data.order_id,
+                    handler: function(response) {
+                        $.ajax({
+                            url: '{{ route("purchase.verifyPayment") }}',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature,
+                                asset_id: {{ $asset->id }}
+                            }),
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.success) {
+                                    window.location.href = result.redirect;
+                                } else {
+                                    $paymentError.text(result.message).show();
+                                }
+                            },
+                            error: function() {
+                                $paymentError.text('Payment verification failed. Please try again.').show();
+                            }
+                        });
+                    },
+                    prefill: {
+                        name: '{{ Auth::user()->name }}',
+                        email: '{{ Auth::user()->email }}'
+                    },
+                    theme: {
+                        color: '#007bff'
+                    }
+                };
+                
+                var rzp = new Razorpay(options);
+                rzp.open();
+            },
+            error: function() {
+                loadingModal.hide();
+                $paymentError.text('Failed to create payment order. Please try again.').show();
+            }
+        });
+    });
+});
+</script>
+@endpush

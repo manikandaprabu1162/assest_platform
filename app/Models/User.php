@@ -45,4 +45,44 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
+    
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+    
+    public function purchasedAssets()
+    {
+        return $this->belongsToMany(Asset::class, 'purchases')
+            ->withPivot('price', 'transaction_id', 'payment_status', 'purchased_at')
+            ->wherePivot('payment_status', 'completed')
+            ->withTimestamps();
+    }
+
+    public function hasPurchased(Asset $asset): bool
+    {
+        return $this->purchases()
+            ->where('asset_id', $asset->id)
+            ->where('payment_status', 'completed')
+            ->exists();
+    }
+
+    public function getTotalSpentAttribute(): float
+    {
+        return $this->purchases()
+            ->where('payment_status', 'completed')
+            ->sum('price');
+    }
+
+    public function getPurchasesCountAttribute(): int
+    {
+        return $this->purchases()
+            ->where('payment_status', 'completed')
+            ->count();
+    }
 }
